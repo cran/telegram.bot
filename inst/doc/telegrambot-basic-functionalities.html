@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-10" />
+<meta name="date" content="2018-11-11" />
 
 <title>Basic Functionalities</title>
 
@@ -70,16 +70,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Basic Functionalities</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-10</em></h4>
+<h4 class="date"><em>2018-11-11</em></h4>
 
 
 
 <p>In the <em>Introduction</em> we saw how to build a Telegram Bot with R. However, it can now only answer to the <code>/start</code> command, so now we are going to add a couple of functionalities, including:</p>
 <ul>
-<li><a href="#text-responses">Text responses</a></li>
-<li><a href="#commands-with-arguments">Commands with arguments</a></li>
-<li><a href="#unknown-command-handling">Unknown command handling</a></li>
-<li><a href="#stopping-the-bot">Stopping the Bot</a></li>
+<li>Text responses</li>
+<li>Commands with arguments</li>
+<li>Unknown command handling</li>
+<li>Stopping the Bot</li>
 </ul>
 <div id="text-responses" class="section level3">
 <h3>Text responses</h3>
@@ -88,11 +88,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id, <span class="dt">text =</span> update<span class="op">$</span>message<span class="op">$</span>text)
 }
 
-echo_handler &lt;-<span class="st"> </span><span class="kw">MessageHandler</span>(echo, Filters<span class="op">$</span>text)
+echo_handler &lt;-<span class="st"> </span><span class="kw">MessageHandler</span>(echo, MessageFilters<span class="op">$</span>text)
 dispatcher<span class="op">$</span><span class="kw">add_handler</span>(echo_handler)</code></pre></div>
 <p>From now on, your bot should echo all non-command messages it receives.</p>
 <p><strong>Note:</strong> As soon as you add new handlers to <code>dispatcher</code>, they are in effect.</p>
-<p><strong>Note:</strong> The <code>Filters</code> object contains a number of functions that filter incoming messages for text, images, status updates and more. Any message that returns <code>TRUE</code> for at least one of the filters passed to <code>MessageHandler</code> will be accepted. You can also write your own filters if you want.</p>
+<p><strong>Note:</strong> The <code>MessageFilters</code> object contains a number of functions that filter incoming messages for text, images, status updates and more. Any message that returns <code>TRUE</code> for at least one of the filters passed to <code>MessageHandler</code> will be accepted. You can also write your own filters if you want.</p>
 </div>
 <div id="commands-with-arguments" class="section level3">
 <h3>Commands with arguments</h3>
@@ -114,7 +114,7 @@ dispatcher<span class="op">$</span><span class="kw">add_handler</span>(caps_hand
                         <span class="dt">text =</span> <span class="st">&quot;Sorry, I didn't understand that command.&quot;</span>)
 }
 
-unknown_handler &lt;-<span class="st"> </span><span class="kw">MessageHandler</span>(unknown, Filters<span class="op">$</span>command)
+unknown_handler &lt;-<span class="st"> </span><span class="kw">MessageHandler</span>(unknown, MessageFilters<span class="op">$</span>command)
 dispatcher<span class="op">$</span><span class="kw">add_handler</span>(unknown_handler)</code></pre></div>
 </div>
 <div id="stopping-the-bot" class="section level3">

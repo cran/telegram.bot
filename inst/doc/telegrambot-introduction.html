@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-10" />
+<meta name="date" content="2018-11-11" />
 
 <title>Introduction to the API</title>
 
@@ -70,15 +70,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to the API</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-10</em></h4>
+<h4 class="date"><em>2018-11-11</em></h4>
 
 
 
 <p>In this vignette you will learn how the Telegram Bot API works and how you can connect to it from R, with the following sections:</p>
 <ul>
-<li><a href="#creating-a-telegram-bot">Creating a Telegram Bot</a></li>
-<li><a href="#introduction-to-the-telegram-bot-api">Introduction to the Telegram Bot API</a></li>
-<li><a href="#the-telegrambot-package">The <code>telegram.bot</code> Package</a></li>
+<li>Creating a Telegram Bot</li>
+<li>Introduction to the Telegram Bot API</li>
+<li>The <code>telegram.bot</code> Package</li>
 </ul>
 <div id="creating-a-telegram-bot" class="section level3">
 <h3>Creating a Telegram Bot</h3>
@@ -121,7 +121,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;telegram.bot&quot;)</span>
 <span class="kw">library</span>(telegram.bot)
 
-bot &lt;-<span class="st"> </span><span class="kw">Bot</span>(<span class="dt">token =</span> <span class="st">'TOKEN'</span>)</code></pre></div>
+bot &lt;-<span class="st"> </span><span class="kw">Bot</span>(<span class="dt">token =</span> <span class="st">&quot;TOKEN&quot;</span>)</code></pre></div>
 <p>To check if your credentials are correct, call the <a href="https://core.telegram.org/bots/api#getme">getMe</a> API method:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(bot<span class="op">$</span><span class="kw">getMe</span>())</code></pre></div>
 <p><strong>Note:</strong> Bots can’t initiate conversations with users. A user must either add them to a group or send them a message first. People can use <code>telegram.me/&lt;your-bot-username&gt;</code> links or username search to find your bot (searching for <code>@&lt;your-bot-username&gt;</code> in any of the Telegram clients).</p>
@@ -131,17 +131,16 @@ bot &lt;-<span class="st"> </span><span class="kw">Bot</span>(<span class="dt">t
 <p>You can get updates from your bot with the command:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updates &lt;-<span class="st"> </span>bot<span class="op">$</span><span class="kw">getUpdates</span>()</code></pre></div>
 <p>This will retrieve a <code>list</code> generated from the JSON response from the server. In order to send a response, you can do it so with the following command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> <span class="op">&lt;</span>chat<span class="op">-</span>id<span class="op">&gt;</span>, <span class="dt">text =</span> <span class="st">'TestReply'</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chat_id &lt;-<span class="st"> &quot;CHAT_ID&quot;</span> <span class="co"># you can retrieve it from bot$getUpdates() after sending a message to the bot</span>
+bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> chat_id, <span class="dt">text =</span> <span class="st">&quot;Test reply&quot;</span>)</code></pre></div>
 </div>
 <div id="other-methods" class="section level4">
 <h4>Other methods</h4>
 <p>As you see, one of the core instances from the package is <code>Bot</code>, which represents a Telegram Bot. You can find a full list of the Telegram API methods implemented in its documentation (<code>?Bot</code>), but here there are a few more examples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chat_id &lt;-<span class="st"> </span><span class="er">&lt;</span>chat<span class="op">-</span>id<span class="op">&gt;</span>
-
-<span class="co"># Send message</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Send message</span>
 bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> chat_id,
-                <span class="dt">text =</span> <span class="st">'*foo bold text*'</span>,
-                <span class="dt">parse_mode =</span> <span class="st">'Markdown'</span>)
+                <span class="dt">text =</span> <span class="st">&quot;*foo bold text*&quot;</span>,
+                <span class="dt">parse_mode =</span> <span class="st">&quot;Markdown&quot;</span>)
 
 <span class="co"># Send photo</span>
 bot<span class="op">$</span><span class="kw">sendPhoto</span>(<span class="dt">chat_id =</span> chat_id,
@@ -174,7 +173,7 @@ bot<span class="op">$</span><span class="kw">sendLocation</span>(<span class="dt
 
 <span class="co"># Send chat action</span>
 bot<span class="op">$</span><span class="kw">sendChatAction</span>(<span class="dt">chat_id =</span> chat_id,
-                   <span class="dt">action =</span> <span class="st">'typing'</span>)
+                   <span class="dt">action =</span> <span class="st">&quot;typing&quot;</span>)
 
 <span class="co"># Get user profile photos</span>
 bot<span class="op">$</span><span class="kw">getUserProfilePhotos</span>(<span class="dt">user_id =</span> chat_id)</code></pre></div>

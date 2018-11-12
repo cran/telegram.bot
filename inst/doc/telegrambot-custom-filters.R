@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 #  kill_handler <- CommandHandler('kill', kill, filter_user)
 
 ## ---- eval = F-----------------------------------------------------------
-#  Filters$text_or_command <- function(message){
+#  MessageFilters$text_or_command <- function(message){
 #                                 !is.null(message$text)
 #                             }
 

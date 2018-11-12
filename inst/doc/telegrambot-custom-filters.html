@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-10" />
+<meta name="date" content="2018-11-11" />
 
 <title>Custom Filters</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Custom Filters</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-10</em></h4>
+<h4 class="date"><em>2018-11-11</em></h4>
 
 
 
@@ -86,8 +86,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="text-or-command-filter" class="section level3">
 <h3>Text or command filter</h3>
-<p>Filters can also be added to the <code>Filters</code> object. Within it, we can see that <code>Filters$text</code> and <code>Filters$command</code> are mutually exclusive, so we could add a filter for messages that can be either one of them. This would result as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Filters<span class="op">$</span>text_or_command &lt;-<span class="st"> </span><span class="cf">function</span>(message){
+<p>Filters can also be added to the <code>MessageFilters</code> object. Within it, we can see that <code>MessageFilters$text</code> and <code>MessageFilters$command</code> are mutually exclusive, so we could add a filter for messages that can be either one of them. This would result as:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MessageFilters<span class="op">$</span>text_or_command &lt;-<span class="st"> </span><span class="cf">function</span>(message){
                                <span class="op">!</span><span class="kw">is.null</span>(message<span class="op">$</span>text)
                            }</code></pre></div>
 </div>

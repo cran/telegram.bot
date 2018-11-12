@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
 #  	bot$sendMessage(chat_id = update$message$chat_id, text = update$message$text)
 #  }
 #  
-#  echo_handler <- MessageHandler(echo, Filters$text)
+#  echo_handler <- MessageHandler(echo, MessageFilters$text)
 #  dispatcher$add_handler(echo_handler)
 
 ## ---- eval = F-----------------------------------------------------------
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 #                          text = "Sorry, I didn't understand that command.")
 #  }
 #  
-#  unknown_handler <- MessageHandler(unknown, Filters$command)
+#  unknown_handler <- MessageHandler(unknown, MessageFilters$command)
 #  dispatcher$add_handler(unknown_handler)
 
 ## ---- eval = F-----------------------------------------------------------
