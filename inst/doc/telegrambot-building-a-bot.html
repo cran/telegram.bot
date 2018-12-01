@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-11" />
+<meta name="date" content="2018-12-01" />
 
 <title>Tutorial – Building an R Bot in 3 steps</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Tutorial – Building an R Bot in 3 steps</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-11</em></h4>
+<h4 class="date"><em>2018-12-01</em></h4>
 
 
 
@@ -83,29 +83,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>First, though, let’s introduce the <code>telegram.bot</code> package.</p>
 <div id="introduction" class="section level3">
 <h3>Introduction</h3>
-<p>The <code>telegram.bot</code> package is built on top of the pure API implementation. It provides an easy-to-use interface and takes some work off the programmer. It uses <code>telegram</code> package methods to connect to the API and is based on the <code>python-telegram-bot</code> library, using the nomenclature from its <code>telegram.ext</code> sub-module.</p>
 <p>In order to build a bot that is continuously running and is able to respond to multiple input data formats, the <code>telegram.bot</code> package features several <code>R6</code> classes, but the two most important ones here are <code>Updater</code> and <code>Dispatcher</code>.</p>
 <p>The <code>Updater</code> class continuously fetches new updates from Telegram and passes them on to the <code>Dispatcher</code> class. If you create an <code>Updater</code> object, it will create a <code>Dispatcher</code>. You can then register handlers of different types in the <code>Dispatcher</code>, which will sort the updates fetched by the <code>Updater</code> according to the handlers you registered, and deliver them to a callback function that you defined. Every handler is an instance of any subclass of the <code>Handler</code> class.</p>
-<p>To begin, you’ll need an Access Token. If you already read and followed <a href="https://github.com/ebeneditos/telegram.bot/wiki/Introduction-to-the-API">Introduction to the API</a>, you can use the one you generated then. If not: To generate an Access Token, you have to talk to <span class="citation">[@BotFather]</span>(<a href="https://telegram.me/botfather" class="uri">https://telegram.me/botfather</a>) and follow a few simple steps (described <a href="https://core.telegram.org/bots#6-botfather">here</a>). You should really read the introduction first, though.</p>
+<p>To begin, you’ll need an Access Token. If you already read and followed <a href="https://github.com/ebeneditos/telegram.bot/wiki/Introduction-to-the-API">Introduction to the API</a>, you can use the one you generated then. If not: To generate an Access Token, you have to talk to <a href="https://telegram.me/botfather"><em><span class="citation">@BotFather</span></em></a> and follow a few simple steps (described <a href="https://core.telegram.org/bots#6-botfather">here</a>). You should really read the introduction first, though.</p>
 <p>With that said, let’s <em>get started!</em></p>
 </div>
 <div id="creating-the-updater-object" class="section level3">
 <h3>1. Creating the Updater object</h3>
-<p>First, you first must create an <code>Update</code> object. Replace <code>TOKEN</code> with your Telegram Bot’s API Access Token, which looks something like <code>123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11</code>.</p>
+<p>First, you first must create an <code>Updater</code> object. Replace <code>TOKEN</code> with your Telegram Bot’s API Access Token, which looks something like <code>123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(telegram.bot)
 
-updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="dt">token=</span><span class="st">'TOKEN'</span>)</code></pre></div>
+updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="dt">token =</span> <span class="st">&quot;TOKEN&quot;</span>)</code></pre></div>
 <p><strong>Recommendation:</strong> Following <a href="http://github.com/hadley/httr/blob/master/vignettes/api-packages.Rmd#appendix-api-key-best-practices">Hadley’s API guidelines</a> it’s unsafe to type the <code>TOKEN</code> just in the R script. It’s better to use environment variables set in <code>.Renviron</code> file.</p>
-<p>So let’s say you have named your bot <code>RBot</code> (it’s the first question you answered to the <em>BotFather</em> when creating it); you can open the <code>.Renviron</code> file with the R commands:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user_renviron &lt;-<span class="st"> </span><span class="kw">path.expand</span>(<span class="kw">file.path</span>(<span class="st">&quot;~&quot;</span>, <span class="st">&quot;.Renviron&quot;</span>))
-<span class="kw">file.edit</span>(user_renviron) <span class="co"># Open with another text editor if this fails</span></code></pre></div>
+<p>So let’s say you have named your bot <code>RTelegramBot</code> (it’s the first question you answered to the <em>BotFather</em> when creating it); you can open the <code>.Renviron</code> file with the R commands:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">file.edit</span>(<span class="kw">path.expand</span>(<span class="kw">file.path</span>(<span class="st">&quot;~&quot;</span>, <span class="st">&quot;.Renviron&quot;</span>)))</code></pre></div>
 <p>And put the following line with your <code>TOKEN</code> in your <code>.Renviron</code>:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="va">R_TELEGRAM_BOT_RBot=</span>TOKEN</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">R_TELEGRAM_BOT_RTelegramBot=TOKEN</code></pre></div>
 <p>If you follow the suggested <code>R_TELEGRAM_BOT_</code> prefix convention you’ll be able to use the <code>bot_token</code> function (otherwise you’ll have to get these variable from <code>Sys.getenv</code>).</p>
 <p>After you’ve finished these steps <strong>restart R</strong> in order to have working environment variables. You can then create the <code>Updater</code> object as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="dt">token =</span> <span class="kw">bot_token</span>(<span class="st">'RBot'</span>))</code></pre></div>
-<p><strong>Recommendation 2:</strong> For quicker access to the <code>Dispatcher</code> used by your <code>Updater</code>, you can introduce it locally:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dispatcher &lt;-<span class="st"> </span>updater<span class="op">$</span>dispatcher</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="dt">token =</span> <span class="kw">bot_token</span>(<span class="st">&quot;RTelegramBot&quot;</span>))</code></pre></div>
 </div>
 <div id="the-first-function" class="section level3">
 <h3>2. The first function</h3>
@@ -114,9 +110,9 @@ updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span clas
   bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,
                   <span class="dt">text =</span> <span class="kw">sprintf</span>(<span class="st">&quot;Hello %s!&quot;</span>, update<span class="op">$</span>message<span class="op">$</span>from<span class="op">$</span>first_name))
 }</code></pre></div>
-<p>The goal is to have this function called every time the Bot receives a Telegram message that contains the <code>/start</code> command. To accomplish that, you can use a <code>CommandHandler</code> (one of the provided <code>Handler</code> sub-classes) and register it in the dispatcher:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">start_handler &lt;-<span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">'start'</span>, start)
-dispatcher<span class="op">$</span><span class="kw">add_handler</span>(start_handler)</code></pre></div>
+<p>The goal is to have this function called every time the Bot receives a Telegram message that contains the <code>/start</code> command. To accomplish that, you can use a <code>CommandHandler</code> (one of the provided <code>Handler</code> sub-classes) and register it in the <code>updaters</code>’s <code>dispatcher</code> (which is done with the <code>+</code> operator):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">start_handler &lt;-<span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;start&quot;</span>, start)
+updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span>start_handler</code></pre></div>
 </div>
 <div id="starting-the-bot" class="section level3">
 <h3>3. Starting the Bot</h3>

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-11" />
+<meta name="date" content="2018-12-01" />
 
 <title>Basic Functionalities</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Basic Functionalities</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-11</em></h4>
+<h4 class="date"><em>2018-12-01</em></h4>
 
 
 
@@ -88,22 +88,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id, <span class="dt">text =</span> update<span class="op">$</span>message<span class="op">$</span>text)
 }
 
-echo_handler &lt;-<span class="st"> </span><span class="kw">MessageHandler</span>(echo, MessageFilters<span class="op">$</span>text)
-dispatcher<span class="op">$</span><span class="kw">add_handler</span>(echo_handler)</code></pre></div>
+updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">MessageHandler</span>(echo, MessageFilters<span class="op">$</span>text)</code></pre></div>
 <p>From now on, your bot should echo all non-command messages it receives.</p>
-<p><strong>Note:</strong> As soon as you add new handlers to <code>dispatcher</code>, they are in effect.</p>
+<p><strong>Note:</strong> As soon as you add new handlers to the <code>updaters</code>’s <code>dispatcher</code> (done with the <code>+</code> operator), they are in effect.</p>
 <p><strong>Note:</strong> The <code>MessageFilters</code> object contains a number of functions that filter incoming messages for text, images, status updates and more. Any message that returns <code>TRUE</code> for at least one of the filters passed to <code>MessageHandler</code> will be accepted. You can also write your own filters if you want.</p>
 </div>
 <div id="commands-with-arguments" class="section level3">
 <h3>Commands with arguments</h3>
 <p>Let’s add some actual functionality to your bot. We want to implement a <code>/caps</code> command that will take some text as an argument and reply to it in CAPS. To make things easy, you can receive the arguments (as a <code>vector</code>, split on spaces) that were passed to a command in the callback function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">caps &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update, args){
-    text_caps &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">paste</span>(args, <span class="dt">collapse =</span> <span class="st">' '</span>))
-    bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id, <span class="dt">text =</span> text_caps)
+  <span class="cf">if</span> (<span class="kw">length</span>(args <span class="op">&gt;</span><span class="st"> </span>0L)){
+    text_caps &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">paste</span>(args, <span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>))
+    bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,
+                    <span class="dt">text =</span> text_caps) 
+  }
 }
 
-caps_handler &lt;-<span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">'caps'</span>, caps, <span class="dt">pass_args =</span> <span class="ot">TRUE</span>)
-dispatcher<span class="op">$</span><span class="kw">add_handler</span>(caps_handler)</code></pre></div>
+updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;caps&quot;</span>, caps, <span class="dt">pass_args =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><strong>Note:</strong> Take a look at the <code>pass_args = TRUE</code> in the <code>CommandHandler</code> initiation. This is required to let the handler know that you want it to pass the list of command arguments to the callback. All handler classes have keyword arguments like this. Some are the same among all handlers, some are specific to the handler class. If you use a new type of handler for the first time, look it up in the docs and see if one of them is useful to you.</p>
 </div>
 <div id="unknown-command-handling" class="section level3">
@@ -114,29 +115,22 @@ dispatcher<span class="op">$</span><span class="kw">add_handler</span>(caps_hand
                         <span class="dt">text =</span> <span class="st">&quot;Sorry, I didn't understand that command.&quot;</span>)
 }
 
-unknown_handler &lt;-<span class="st"> </span><span class="kw">MessageHandler</span>(unknown, MessageFilters<span class="op">$</span>command)
-dispatcher<span class="op">$</span><span class="kw">add_handler</span>(unknown_handler)</code></pre></div>
+updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">MessageHandler</span>(unknown, MessageFilters<span class="op">$</span>command)</code></pre></div>
 </div>
 <div id="stopping-the-bot" class="section level3">
 <h3>Stopping the Bot</h3>
 <p>If you’re done playing around, you can stop the Bot either by using the the <code>interrupt R</code> command in the session menu (in <em>RStudio</em> you can press the <code>STOP</code> button) or by calling the <code>updater$stop_polling()</code> method. Below we will define a command that uses this method:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Replace the original line with</span>
-updater &lt;&lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="dt">token =</span> <span class="st">'TOKEN'</span>)
-
-...
-
-<span class="co"># Example of a 'kill' command</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Example of a 'kill' command</span>
 kill &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update){
   bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,
                   <span class="dt">text =</span> <span class="st">&quot;Bye!&quot;</span>)
   <span class="co"># Clean 'kill' update</span>
-  bot<span class="op">$</span><span class="kw">getUpdates</span>(<span class="dt">offset =</span> update<span class="op">$</span>update_id <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
+  bot<span class="op">$</span><span class="kw">getUpdates</span>(<span class="dt">offset =</span> update<span class="op">$</span>update_id <span class="op">+</span><span class="st"> </span>1L)
   <span class="co"># Stop the updater polling</span>
   updater<span class="op">$</span><span class="kw">stop_polling</span>()
 }
 
-kill_handler &lt;-<span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">'kill'</span>, kill)
-dispatcher<span class="op">$</span><span class="kw">add_handler</span>(kill_handler)</code></pre></div>
+updater &lt;&lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;kill&quot;</span>, kill)</code></pre></div>
 <p>Now you can send the command <code>/kill</code> from Telegram to stop the Bot. However, in a production environment it wouldn’t be recommendable to leave this command as it is now, as anyone could stop the bot. To solve this, you can create a customized filter in order to make this command available only for a certain <code>user_id</code>, for instance. This is explained in the next section.</p>
 <p><strong>Note:</strong> With the <a href="https://stat.ethz.ch/pipermail/r-help/2011-April/275905.html"><em>superassignment</em> operator <code>&lt;&lt;-</code></a> we assign the <code>updater</code> in the enclosing environment so to call it from inside the <code>kill</code> function.</p>
 </div>

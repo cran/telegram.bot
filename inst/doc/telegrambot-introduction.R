@@ -4,26 +4,26 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  # install.packages("telegram.bot")
 #  library(telegram.bot)
 #  
 #  bot <- Bot(token = "TOKEN")
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  print(bot$getMe())
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  updates <- bot$getUpdates()
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  chat_id <- "CHAT_ID" # you can retrieve it from bot$getUpdates() after sending a message to the bot
-#  bot$sendMessage(chat_id = chat_id, text = "Test reply")
+#  bot$sendMessage(chat_id = chat_id, text = "TestReply")
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  # Send message
 #  bot$sendMessage(chat_id = chat_id,
-#                  text = "*foo bold text*",
+#                  text = "foo *bold* _italic_",
 #                  parse_mode = "Markdown")
 #  
 #  # Send photo
@@ -60,5 +60,9 @@ knitr::opts_chunk$set(
 #                     action = "typing")
 #  
 #  # Get user profile photos
-#  bot$getUserProfilePhotos(user_id = chat_id)
+#  photos <- bot$getUserProfilePhotos(user_id = chat_id)
+#  
+#  # Download user profile photo
+#  file_id <- photos$photos[[1L]][[1L]]$file_id
+#  bot$getFile(file_id, destfile = "photo.jpg")
 

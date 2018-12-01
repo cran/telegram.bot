@@ -12,9 +12,9 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-11" />
+<meta name="date" content="2018-12-01" />
 
-<title>Set a Proxy</title>
+<title>The add operator</title>
 
 
 
@@ -68,17 +68,57 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Set a Proxy</h1>
+<h1 class="title toc-ignore">The add operator</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-11</em></h4>
+<h4 class="date"><em>2018-12-01</em></h4>
 
 
 
-<p>If you want to set a proxy, you can do it by passing an <code>httr::use_proxy</code> instance into the <code>request_config</code> parameter when calling the <code>Bot</code> object:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bot &lt;-<span class="st"> </span><span class="kw">Bot</span>(<span class="dt">token =</span> <span class="st">'TOKEN'</span>, <span class="dt">request_config =</span> httr<span class="op">::</span><span class="kw">use_proxy</span>(...))</code></pre></div>
-<p>Also, the same <code>request_config</code> parameter can be passed through the <code>Updater</code> object:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="dt">token =</span> <span class="st">'TOKEN'</span>, <span class="dt">request_config =</span> httr<span class="op">::</span><span class="kw">use_proxy</span>(...))</code></pre></div>
-<p>The details for the proxy settings can be found in <code>?httr::use_proxy</code>.</p>
+<p>The <em>add</em> operator (<code>+</code>, or more formally <code>+.TelegramObject</code>) is an S3 method for class <code>TelegramObject</code> that enables you to add any kind of <code>Handler</code> to an <code>Updater</code>’s <code>Dispatcher</code>.</p>
+<div id="example" class="section level3">
+<h3>Example</h3>
+<p>Say you want to build a bot with a simple handler for the <code>/start</code> command:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">start &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update){
+  bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,
+                  <span class="dt">text =</span> <span class="kw">sprintf</span>(<span class="st">&quot;Hello %s!&quot;</span>,
+                                 update<span class="op">$</span>message<span class="op">$</span>from<span class="op">$</span>first_name))
+}
+
+start_handler &lt;-<span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;start&quot;</span>, start)</code></pre></div>
+<p>You can then build your updater with:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="st">&quot;TOKEN&quot;</span>) <span class="op">+</span><span class="st"> </span>start_handler</code></pre></div>
+<p>As things start to get more complex, you can chain multiple handlers in a single call:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">echo &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update){
+  bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,
+                  <span class="dt">text =</span> update<span class="op">$</span>message<span class="op">$</span>text)
+}
+
+updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="st">&quot;TOKEN&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;start&quot;</span>, start) <span class="op">+</span><span class="st"> </span><span class="kw">MessageHandler</span>(echo, MessageFilters<span class="op">$</span>text)</code></pre></div>
+<p>And keep adding…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">caps &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update, args){
+  <span class="cf">if</span> (<span class="kw">length</span>(args <span class="op">&gt;</span><span class="st"> </span>0L)){
+    text_caps &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">paste</span>(args, <span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>))
+    bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,
+                    <span class="dt">text =</span> text_caps) 
+  }
+}
+
+updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;caps&quot;</span>, caps, <span class="dt">pass_args =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Give it a try! Start polling the updater:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater<span class="op">$</span><span class="kw">start_polling</span>()</code></pre></div>
+<p>And send <strong><em>/start</em></strong> to the bot, <strong><em>/caps foo</em></strong> or just a simple text.</p>
+</div>
+<div id="how-it-works" class="section level3">
+<h3>How it works</h3>
+<p>The operator is indeed calling the <code>add_handler</code> method from an <code>Updater</code>’s <code>Dispatcher</code>. Then:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span>start_handler</code></pre></div>
+<p>Is equivalent to:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater<span class="op">$</span>dispatcher<span class="op">$</span><span class="kw">add_handler</span>(start_handler)</code></pre></div>
+<p>Also, it works with <code>Dispatcher</code> objects:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dispatcher &lt;-<span class="st"> </span>updater<span class="op">$</span>dispatcher
+dispatcher &lt;-<span class="st"> </span>dispatcher <span class="op">+</span><span class="st"> </span>start_handler <span class="co"># equivalent to dispatcher$add_handler(start_handler)</span></code></pre></div>
+<p>So, all in all, the <code>+.TelegramObject</code> operator simplifies the construction of an <code>Updater</code>. However, if you want to add a handler with advanced settings, let’s say by controlling the <code>group</code> in which it is placed, you will need to make an <code>add_handler</code> call.</p>
+</div>
 
 
 

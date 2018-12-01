@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-11" />
+<meta name="date" content="2018-12-01" />
 
 <title>Introduction to the API</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to the API</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-11</em></h4>
+<h4 class="date"><em>2018-12-01</em></h4>
 
 
 
@@ -82,10 +82,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <div id="creating-a-telegram-bot" class="section level3">
 <h3>Creating a Telegram Bot</h3>
-<p>First, you must have or <a href="https://web.telegram.org">create a Telegram account</a>. Second, you’ll need to create a Telegram Bot in order to get an Access Token. You can do so by talking to <a href="https://telegram.me/botfather"><code>@BotFather</code></a> and following a <a href="https://core.telegram.org/bots#6-botfather">few simple steps</a>. Telegram bots can receive <em>messages</em> or <em>commands</em>. The former are simply text that you send as if you were sending a message to another person, while the latter are prefixed with a <code>/</code> character. To create a new bot, send the following command to <em>BotFather</em> as a chat (exactly as if you were talking to another person on Telegram):</p>
+<p>First, you must have or <a href="https://web.telegram.org">create a Telegram account</a>. Second, you’ll need to create a Telegram Bot in order to get an Access Token. You can do so by talking to <a href="https://telegram.me/botfather"><em><span class="citation">@BotFather</span></em></a> and following a <a href="https://core.telegram.org/bots#6-botfather">few simple steps</a>. Telegram bots can receive <em>messages</em> or <em>commands</em>. The former are simply text that you send as if you were sending a message to another person, while the latter are prefixed with a <code>/</code> character. To create a new bot, send the following command to <em>BotFather</em> as a chat (exactly as if you were talking to another person on Telegram):</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">/newbot</span></code></pre></div>
 <p>You should get a reply instantly that asks you to choose a name for your Bot. You have to send then the name you want for the bot, which can be anyone, for instance:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">RBot</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">RTelegramBot</span></code></pre></div>
 <p><em>BotFather</em> will now ask you to pick a username for your Bot. This username has to end in <code>bot</code>, and be globally unique. In this tutorial we’ll indicate the Bot’s username with <code>&lt;your-bot-username&gt;</code>, so you’ll have to substitute your chosen username wherever relevant from now on. Send your chosen username to <em>BotFather</em>:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="op">&lt;</span><span class="ex">your-bot-username</span><span class="op">&gt;</span></code></pre></div>
 <p>After doing so, <em>BotFather</em> will send you a “Congratulations” message, which will include a token. The token should look something like this:</p>
@@ -117,7 +117,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="creating-a-bot-instance" class="section level4">
 <h4>Creating a Bot instance</h4>
 <p>To get a feeling for the API and how to use it with <code>telegram.bot</code>, we will reproduce the URL based example we just saw, done with R with this package.</p>
-<p>First, create an instance of the <code>Bot</code> class, where <code>TOKEN</code> should be replaced by the API token you received from <code>@BotFather</code>:</p>
+<p>First, create an instance of the <code>Bot</code> class, where <code>TOKEN</code> should be replaced by the API token you received from <em><span class="citation">@BotFather</span></em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;telegram.bot&quot;)</span>
 <span class="kw">library</span>(telegram.bot)
 
@@ -132,14 +132,14 @@ bot &lt;-<span class="st"> </span><span class="kw">Bot</span>(<span class="dt">t
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updates &lt;-<span class="st"> </span>bot<span class="op">$</span><span class="kw">getUpdates</span>()</code></pre></div>
 <p>This will retrieve a <code>list</code> generated from the JSON response from the server. In order to send a response, you can do it so with the following command:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chat_id &lt;-<span class="st"> &quot;CHAT_ID&quot;</span> <span class="co"># you can retrieve it from bot$getUpdates() after sending a message to the bot</span>
-bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> chat_id, <span class="dt">text =</span> <span class="st">&quot;Test reply&quot;</span>)</code></pre></div>
+bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> chat_id, <span class="dt">text =</span> <span class="st">&quot;TestReply&quot;</span>)</code></pre></div>
 </div>
 <div id="other-methods" class="section level4">
 <h4>Other methods</h4>
 <p>As you see, one of the core instances from the package is <code>Bot</code>, which represents a Telegram Bot. You can find a full list of the Telegram API methods implemented in its documentation (<code>?Bot</code>), but here there are a few more examples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Send message</span>
 bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> chat_id,
-                <span class="dt">text =</span> <span class="st">&quot;*foo bold text*&quot;</span>,
+                <span class="dt">text =</span> <span class="st">&quot;foo *bold* _italic_&quot;</span>,
                 <span class="dt">parse_mode =</span> <span class="st">&quot;Markdown&quot;</span>)
 
 <span class="co"># Send photo</span>
@@ -176,7 +176,11 @@ bot<span class="op">$</span><span class="kw">sendChatAction</span>(<span class="
                    <span class="dt">action =</span> <span class="st">&quot;typing&quot;</span>)
 
 <span class="co"># Get user profile photos</span>
-bot<span class="op">$</span><span class="kw">getUserProfilePhotos</span>(<span class="dt">user_id =</span> chat_id)</code></pre></div>
+photos &lt;-<span class="st"> </span>bot<span class="op">$</span><span class="kw">getUserProfilePhotos</span>(<span class="dt">user_id =</span> chat_id)
+
+<span class="co"># Download user profile photo</span>
+file_id &lt;-<span class="st"> </span>photos<span class="op">$</span>photos[[1L]][[1L]]<span class="op">$</span>file_id
+bot<span class="op">$</span><span class="kw">getFile</span>(file_id, <span class="dt">destfile =</span> <span class="st">&quot;photo.jpg&quot;</span>)</code></pre></div>
 <p>Note that you can also send local files by passing their path instead of an URL. Additionally, all methods accept their equivalent <code>snake_case</code> syntax (e.g. <code>bot$get_me()</code> is equivalent to <code>bot$getMe()</code>).</p>
 </div>
 </div>

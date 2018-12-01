@@ -12,9 +12,9 @@
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2018-11-11" />
+<meta name="date" content="2018-12-01" />
 
-<title>Custom Filters</title>
+<title>Set a Proxy</title>
 
 
 
@@ -68,29 +68,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Custom Filters</h1>
+<h1 class="title toc-ignore">Set a Proxy</h1>
 <h4 class="author"><em>Ernest Benedito</em></h4>
-<h4 class="date"><em>2018-11-11</em></h4>
+<h4 class="date"><em>2018-12-01</em></h4>
 
 
 
-<p>It is also possible to write your own filters used with <code>MessageHandler</code> and <code>CommandHandler</code>. In essence, a filter is simply a function that receives a <code>Message</code> instance and returns either <code>TRUE</code> or <code>FALSE</code>. If a filter evaluates to <code>TRUE</code>, the message will be handled.</p>
-<div id="restricting-users" class="section level3">
-<h3>Restricting users</h3>
-<p>For the <code>kill</code> example we saw in the <a href="https://github.com/ebeneditos/telegram.bot/wiki/Basic-Functionalities#stopping-the-bot">previous page</a>, it would be useful to filter that command so to make it accessible only for a specific <code>&lt;user-id&gt;</code>. Thereby, you could add a filter:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filter_user &lt;-<span class="st"> </span><span class="cf">function</span>(message){
-                   message<span class="op">$</span>from_user  <span class="op">==</span><span class="st"> </span><span class="er">&lt;</span>user<span class="op">-</span>id<span class="op">&gt;</span>
-<span class="st">               </span>}</code></pre></div>
-<p>Now, you could update the handler with this filter:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kill_handler &lt;-<span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">'kill'</span>, kill, filter_user)</code></pre></div>
-</div>
-<div id="text-or-command-filter" class="section level3">
-<h3>Text or command filter</h3>
-<p>Filters can also be added to the <code>MessageFilters</code> object. Within it, we can see that <code>MessageFilters$text</code> and <code>MessageFilters$command</code> are mutually exclusive, so we could add a filter for messages that can be either one of them. This would result as:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MessageFilters<span class="op">$</span>text_or_command &lt;-<span class="st"> </span><span class="cf">function</span>(message){
-                               <span class="op">!</span><span class="kw">is.null</span>(message<span class="op">$</span>text)
-                           }</code></pre></div>
-</div>
+<p>If you want to set a proxy, you can do it by passing an <code>httr::use_proxy</code> instance into the <code>request_config</code> parameter when calling the <code>Bot</code> object:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bot &lt;-<span class="st"> </span><span class="kw">Bot</span>(<span class="dt">token =</span> <span class="st">&quot;TOKEN&quot;</span>, <span class="dt">request_config =</span> httr<span class="op">::</span><span class="kw">use_proxy</span>(...))</code></pre></div>
+<p>Also, the same <code>request_config</code> parameter can be passed through the <code>Updater</code> object:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">updater &lt;-<span class="st"> </span><span class="kw">Updater</span>(<span class="dt">token =</span> <span class="st">&quot;TOKEN&quot;</span>, <span class="dt">request_config =</span> httr<span class="op">::</span><span class="kw">use_proxy</span>(...))</code></pre></div>
+<p>The details for the proxy settings can be found in <code>?httr::use_proxy</code>.</p>
 
 
 

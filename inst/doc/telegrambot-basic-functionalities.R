@@ -4,48 +4,42 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  echo <- function(bot, update){
 #  	bot$sendMessage(chat_id = update$message$chat_id, text = update$message$text)
 #  }
 #  
-#  echo_handler <- MessageHandler(echo, MessageFilters$text)
-#  dispatcher$add_handler(echo_handler)
+#  updater <- updater + MessageHandler(echo, MessageFilters$text)
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  caps <- function(bot, update, args){
-#  	text_caps <- toupper(paste(args, collapse = ' '))
-#  	bot$sendMessage(chat_id = update$message$chat_id, text = text_caps)
+#    if (length(args > 0L)){
+#     	text_caps <- toupper(paste(args, collapse = " "))
+#     	bot$sendMessage(chat_id = update$message$chat_id,
+#     	                text = text_caps)
+#    }
 #  }
 #  
-#  caps_handler <- CommandHandler('caps', caps, pass_args = TRUE)
-#  dispatcher$add_handler(caps_handler)
+#  updater <- updater + CommandHandler("caps", caps, pass_args = TRUE)
 
-## ---- eval = F-----------------------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  unknown <- function(bot, update){
 #  	bot$sendMessage(chat_id = update$message$chat_id,
 #                          text = "Sorry, I didn't understand that command.")
 #  }
 #  
-#  unknown_handler <- MessageHandler(unknown, MessageFilters$command)
-#  dispatcher$add_handler(unknown_handler)
+#  updater <- updater + MessageHandler(unknown, MessageFilters$command)
 
-## ---- eval = F-----------------------------------------------------------
-#  # Replace the original line with
-#  updater <<- Updater(token = 'TOKEN')
-#  
-#  ...
-#  
+## ---- eval = FALSE-------------------------------------------------------
 #  # Example of a 'kill' command
 #  kill <- function(bot, update){
 #    bot$sendMessage(chat_id = update$message$chat_id,
 #                    text = "Bye!")
 #    # Clean 'kill' update
-#    bot$getUpdates(offset = update$update_id + 1)
+#    bot$getUpdates(offset = update$update_id + 1L)
 #    # Stop the updater polling
 #    updater$stop_polling()
 #  }
 #  
-#  kill_handler <- CommandHandler('kill', kill)
-#  dispatcher$add_handler(kill_handler)
+#  updater <<- updater + CommandHandler("kill", kill)
 
