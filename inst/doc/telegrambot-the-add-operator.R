@@ -46,5 +46,5 @@ knitr::opts_chunk$set(
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  dispatcher <- updater$dispatcher
-#  dispatcher <- dispatcher + start_handler # equivalent to dispatcher$add_handler(start_handler)
+#  dispatcher <- dispatcher + start_handler
 
