@@ -125,7 +125,7 @@ getMe <- function() {
 #' \dontrun{
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
-#' 
+#'
 #' bot$sendMessage(
 #'   chat_id = chat_id,
 #'   text = "foo *bold* _italic_",
@@ -264,7 +264,7 @@ forwardMessage <- function(chat_id,
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
 #' photo_url <- "https://telegram.org/img/t_logo.png"
-#' 
+#'
 #' bot$sendPhoto(
 #'   chat_id = chat_id,
 #'   photo = photo_url,
@@ -346,7 +346,7 @@ sendPhoto <- function(chat_id,
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
 #' audio_url <- "http://www.largesound.com/ashborytour/sound/brobob.mp3"
-#' 
+#'
 #' bot$sendAudio(
 #'   chat_id = chat_id,
 #'   audio = audio_url
@@ -436,7 +436,7 @@ sendAudio <- function(chat_id,
 #'   "https://github.com/ebeneditos/telegram.bot/raw/gh-pages/docs/",
 #'   "telegram.bot.pdf"
 #' )
-#' 
+#'
 #' bot$sendDocument(
 #'   chat_id = chat_id,
 #'   document = document_url
@@ -510,7 +510,7 @@ sendDocument <- function(chat_id,
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
 #' sticker_url <- "https://www.gstatic.com/webp/gallery/1.webp"
-#' 
+#'
 #' bot$sendSticker(
 #'   chat_id = chat_id,
 #'   sticker = sticker_url
@@ -582,7 +582,7 @@ sendSticker <- function(chat_id,
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
 #' video_url <- "http://techslides.com/demos/sample-videos/small.mp4"
-#' 
+#'
 #' bot$sendVideo(
 #'   chat_id = chat_id,
 #'   video = video_url
@@ -670,7 +670,7 @@ sendVideo <- function(chat_id,
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
 #' video_note_url <- "http://techslides.com/demos/sample-videos/small.mp4"
-#' 
+#'
 #' bot$sendVideoNote(
 #'   chat_id = chat_id,
 #'   video_note = video_note_url
@@ -748,7 +748,7 @@ sendVideoNote <- function(chat_id,
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
 #' animation_url <- "http://techslides.com/demos/sample-videos/small.mp4"
-#' 
+#'
 #' bot$sendAnimation(
 #'   chat_id = chat_id,
 #'   animation = animation_url
@@ -838,7 +838,7 @@ sendAnimation <- function(chat_id,
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
 #' ogg_url <- "https://upload.wikimedia.org/wikipedia/commons/c/c8/Example.ogg"
-#' 
+#'
 #' bot$sendVoice(
 #'   chat_id = chat_id,
 #'   voice = ogg_url
@@ -909,7 +909,7 @@ sendVoice <- function(chat_id,
 #' \dontrun{
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
-#' 
+#'
 #' bot$sendLocation(
 #'   chat_id = chat_id,
 #'   latitude = 51.521727,
@@ -969,7 +969,7 @@ sendLocation <- function(chat_id,
 #' \dontrun{
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
-#' 
+#'
 #' bot$sendChatAction(
 #'   chat_id = chat_id,
 #'   action = "typing"
@@ -1003,7 +1003,7 @@ sendChatAction <- function(chat_id,
 #' \dontrun{
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
-#' 
+#'
 #' photos <- bot$getUserProfilePhotos(chat_id = chat_id)
 #' }
 getUserProfilePhotos <- function(user_id,
@@ -1046,9 +1046,9 @@ getUserProfilePhotos <- function(user_id,
 #' \dontrun{
 #' bot <- Bot(token = bot_token("RTelegramBot"))
 #' chat_id <- user_id("Me")
-#' 
+#'
 #' photos <- bot$getUserProfilePhotos(chat_id = chat_id)
-#' 
+#'
 #' # Download user profile photo
 #' file_id <- photos$photos[[1L]][[1L]]$file_id
 #' bot$getFile(file_id, destfile = "photo.jpg")
@@ -1190,6 +1190,143 @@ answerInlineQuery <- function(inline_query_id,
 } # nocov end
 
 
+#' Edit a text message
+#'
+#' Use this method to edit text messages.
+#'
+#' You can also use it's snake_case equivalent
+#' \code{edit_message_text}.
+#' @param chat_id (Optional). Unique identifier for the target chat or username
+#'     of the target channel.
+#' @param message_id (Optional). Required if inline_message_id is not
+#'     specified. Identifier of the sent message.
+#' @param inline_message_id (Optional). Required if chat_id and message_id are
+#'     not specified. Identifier of the inline message.
+#' @param text New text of the message.
+#' @param parse_mode (Optional). Send 'Markdown' or 'HTML', if you want
+#'     Telegram apps to show bold, italic, fixed-width text or inline URLs in
+#'     your bot's message.
+#' @param disable_web_page_preview (Optional). Disables link previews for links
+#'     in this message.
+#' @param reply_markup (Optional). A Reply Markup parameter object, it can be
+#'     either:
+#'     \itemize{
+#'      \item{\code{\link{ReplyKeyboardMarkup}}}
+#'      \item{\code{\link{InlineKeyboardMarkup}}}
+#'      \item{\code{\link{ReplyKeyboardRemove}}}
+#'      \item{\code{\link{ForceReply}}}
+#'    }
+editMessageText <- function(chat_id = NULL,
+                            message_id = NULL,
+                            inline_message_id = NULL,
+                            text,
+                            parse_mode = NULL,
+                            disable_web_page_preview = NULL,
+                            reply_markup = NULL) { # nocov start
+  if (is.null(inline_message_id) & (is.null(chat_id) | is.null(message_id))) {
+    stop(
+      "Both `chat_id` and `message_id` are required ",
+      "when `inline_message_id` is not specified."
+    )
+  }
+
+  url <- sprintf("%s/editMessageText", private$base_url)
+
+  data <- list(
+    text = text
+  )
+
+  if (!missing(chat_id)) {
+    data[["chat_id"]] <- chat_id
+  }
+  if (!missing(message_id)) {
+    data[["message_id"]] <- message_id
+  }
+  if (!missing(inline_message_id)) {
+    data[["inline_message_id"]] <- inline_message_id
+  }
+  if (!missing(parse_mode)) {
+    data[["parse_mode"]] <- parse_mode
+  }
+  if (!missing(disable_web_page_preview)) {
+    data[["disable_web_page_preview"]] <- disable_web_page_preview
+  }
+  if (!missing(reply_markup)) {
+    data[["reply_markup"]] <- to_json(reply_markup)
+  }
+
+  result <- private$request(url, data)
+
+  invisible(result)
+} # nocov end
+
+
+#' Edit a caption
+#'
+#' Use this method to edit captions of messages.
+#'
+#' You can also use it's snake_case equivalent
+#' \code{edit_message_caption}.
+#' @param chat_id (Optional). Unique identifier for the target chat or username
+#'     of the target channel.
+#' @param message_id (Optional). Required if inline_message_id is not
+#'     specified. Identifier of the sent message.
+#' @param inline_message_id (Optional). Required if chat_id and message_id are
+#'     not specified. Identifier of the inline message.
+#' @param caption (Optional). New caption of the message.
+#' @param parse_mode (Optional). Send 'Markdown' or 'HTML', if you want
+#'     Telegram apps to show bold, italic, fixed-width text or inline URLs in
+#'     your bot's message.
+#' @param reply_markup (Optional). A Reply Markup parameter object, it can be
+#'     either:
+#'     \itemize{
+#'      \item{\code{\link{ReplyKeyboardMarkup}}}
+#'      \item{\code{\link{InlineKeyboardMarkup}}}
+#'      \item{\code{\link{ReplyKeyboardRemove}}}
+#'      \item{\code{\link{ForceReply}}}
+#'    }
+editMessageCaption <- function(chat_id = NULL,
+                               message_id = NULL,
+                               inline_message_id = NULL,
+                               caption = NULL,
+                               parse_mode = NULL,
+                               reply_markup = NULL) { # nocov start
+  if (is.null(inline_message_id) & (is.null(chat_id) | is.null(message_id))) {
+    stop(
+      "Both `chat_id` and `message_id` are required ",
+      "when `inline_message_id` is not specified."
+    )
+  }
+
+  url <- sprintf("%s/editMessageCaption", private$base_url)
+
+  data <- list()
+
+  if (!missing(chat_id)) {
+    data[["chat_id"]] <- chat_id
+  }
+  if (!missing(message_id)) {
+    data[["message_id"]] <- message_id
+  }
+  if (!missing(inline_message_id)) {
+    data[["inline_message_id"]] <- inline_message_id
+  }
+  if (!missing(caption)) {
+    data[["caption"]] <- caption
+  }
+  if (!missing(parse_mode)) {
+    data[["parse_mode"]] <- parse_mode
+  }
+  if (!missing(reply_markup)) {
+    data[["reply_markup"]] <- to_json(reply_markup)
+  }
+
+  result <- private$request(url, data)
+
+  invisible(result)
+} # nocov end
+
+
 #' Edit a reply markup
 #'
 #' Use this method to edit only the reply markup of messages sent by the bot or
@@ -1258,8 +1395,7 @@ editMessageReplyMarkup <- function(chat_id = NULL,
 #' \code{\link{Updater}}.
 #'
 #' You can also use it's snake_case equivalent \code{get_updates}.
-#' @param offset (Optional). Identifier of the first update to be returned
-#'     returned.
+#' @param offset (Optional). Identifier of the first update to be returned.
 #' @param limit (Optional). Limits the number of updates to be retrieved.
 #'     Values between 1-100 are accepted. Defaults to 100.
 #' @param timeout (Optional). Timeout in seconds for long polling. Defaults to
@@ -1280,7 +1416,7 @@ editMessageReplyMarkup <- function(chat_id = NULL,
 #' @examples
 #' \dontrun{
 #' bot <- Bot(token = bot_token("RTelegramBot"))
-#' 
+#'
 #' updates <- bot$getUpdates()
 #' }
 getUpdates <- function(offset = NULL,
@@ -1470,6 +1606,8 @@ set_token <- function(token) {
 #'     \item{\code{\link{answerInlineQuery}}}{Send answers to an inline query}
 #'     \item{\code{\link{deleteMessage}}}{Delete a message}
 #'     \item{\code{\link{deleteWebhook}}}{Remove webhook integration}
+#'     \item{\code{\link{editMessageText}}}{Edit a text message}
+#'     \item{\code{\link{editMessageCaption}}}{Edit a caption}
 #'     \item{\code{\link{editMessageReplyMarkup}}}{Edit the reply
 #'     markup of a message}
 #'     \item{\code{\link{forwardMessage}}}{Forward messages of any
@@ -1513,7 +1651,7 @@ set_token <- function(token) {
 #' @examples
 #' \dontrun{
 #' bot <- Bot(token = "TOKEN")
-#' 
+#'
 #' # In case you want to set a proxy (see ?httr:use_proxy)
 #' bot <- Bot(
 #'   token = "TOKEN",
@@ -1592,6 +1730,10 @@ BotClass <- R6::R6Class("Bot",
     answer_callback_query = answerCallbackQuery,
     answerInlineQuery = answerInlineQuery,
     answer_inline_query = answerInlineQuery,
+    editMessageText = editMessageText,
+    edit_message_text = editMessageText,
+    editMessageCaption = editMessageCaption,
+    edit_message_caption = editMessageCaption,
     editMessageReplyMarkup = editMessageReplyMarkup,
     edit_message_reply_markup = editMessageReplyMarkup,
     getUpdates = getUpdates,
