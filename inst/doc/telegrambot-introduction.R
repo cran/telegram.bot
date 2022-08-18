@@ -1,26 +1,26 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  # install.packages("telegram.bot")
 #  library(telegram.bot)
 #  
 #  bot <- Bot(token = "TOKEN")
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  print(bot$getMe())
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  updates <- bot$getUpdates()
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  chat_id <- "CHAT_ID" # you can retrieve it from bot$getUpdates() after sending a message to the bot
 #  bot$sendMessage(chat_id = chat_id, text = "TestReply")
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  # Send message
 #  bot$sendMessage(chat_id,
 #    text = "foo *bold* _italic_",

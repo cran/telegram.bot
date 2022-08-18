@@ -1,10 +1,10 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  start <- function(bot, update){
 #    bot$sendMessage(chat_id = update$message$chat_id,
 #                    text = sprintf("Hello %s!",
@@ -13,10 +13,10 @@ knitr::opts_chunk$set(
 #  
 #  start_handler <- CommandHandler("start", start)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  updater <- Updater("TOKEN") + start_handler
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  echo <- function(bot, update){
 #    bot$sendMessage(chat_id = update$message$chat_id,
 #                    text = update$message$text)
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 #  
 #  updater <- Updater("TOKEN") + CommandHandler("start", start) + MessageHandler(echo, MessageFilters$text)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  caps <- function(bot, update, args){
 #    if (length(args > 0L)){
 #     	text_caps <- toupper(paste(args, collapse = " "))
@@ -35,16 +35,16 @@ knitr::opts_chunk$set(
 #  
 #  updater <- updater + CommandHandler("caps", caps, pass_args = TRUE)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  updater$start_polling()
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  updater <- updater + start_handler
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  updater$dispatcher$add_handler(start_handler)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  dispatcher <- updater$dispatcher
 #  dispatcher <- dispatcher + start_handler
 

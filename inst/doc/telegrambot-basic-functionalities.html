@@ -1,46 +1,77 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Ernest Benedito" />
 
-<meta name="date" content="2019-10-19" />
+<meta name="date" content="2022-08-18" />
 
 <title>Basic Functionalities</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -49,9 +80,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,6 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+
 <style type="text/css">body {
 background-color: #fff;
 margin: 1em auto;
@@ -118,9 +150,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -289,7 +318,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -304,11 +334,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Basic Functionalities</h1>
 <h4 class="author">Ernest Benedito</h4>
-<h4 class="date">2019-10-19</h4>
+<h4 class="date">2022-08-18</h4>
 
 
 
-<p>In the <em>Introduction</em> we saw how to build a Telegram Bot with R. However, it can now only answer to the <code>/start</code> command, so now we are going to add a couple of functionalities, including:</p>
+<p>In the <em>Introduction</em> we saw how to build a Telegram Bot with
+R. However, it can now only answer to the <code>/start</code> command,
+so now we are going to add a couple of functionalities, including:</p>
 <ul>
 <li>Text responses</li>
 <li>Commands with arguments</li>
@@ -317,56 +349,92 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </ul>
 <div id="text-responses" class="section level3">
 <h3>Text responses</h3>
-<p>Let’s add another handler that listens for regular messages. Use the <code>MessageHandler</code>, another <code>Handler</code> subclass, to echo to all text messages:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">echo &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update){</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">    bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id, <span class="dt">text =</span> update<span class="op">$</span>message<span class="op">$</span>text)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">MessageHandler</span>(echo, MessageFilters<span class="op">$</span>text)</a></code></pre></div>
-<p>From now on, your bot should echo all non-command messages it receives.</p>
-<p><strong>Note:</strong> As soon as you add new handlers to the <code>updaters</code>’s <code>dispatcher</code> (done with the <code>+</code> operator), they are in effect.</p>
-<p><strong>Note:</strong> The <code>MessageFilters</code> object contains a number of functions that filter incoming messages for text, images, status updates and more. Any message that returns <code>TRUE</code> for at least one of the filters passed to <code>MessageHandler</code> will be accepted. You can also write your own filters if you want.</p>
+<p>Let’s add another handler that listens for regular messages. Use the
+<code>MessageHandler</code>, another <code>Handler</code> subclass, to
+echo to all text messages:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>echo <span class="ot">&lt;-</span> <span class="cf">function</span>(bot, update){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    bot<span class="sc">$</span><span class="fu">sendMessage</span>(<span class="at">chat_id =</span> update<span class="sc">$</span>message<span class="sc">$</span>chat_id, <span class="at">text =</span> update<span class="sc">$</span>message<span class="sc">$</span>text)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>updater <span class="ot">&lt;-</span> updater <span class="sc">+</span> <span class="fu">MessageHandler</span>(echo, MessageFilters<span class="sc">$</span>text)</span></code></pre></div>
+<p>From now on, your bot should echo all non-command messages it
+receives.</p>
+<p><strong>Note:</strong> As soon as you add new handlers to the
+<code>updaters</code>’s <code>dispatcher</code> (done with the
+<code>+</code> operator), they are in effect.</p>
+<p><strong>Note:</strong> The <code>MessageFilters</code> object
+contains a number of functions that filter incoming messages for text,
+images, status updates and more. Any message that returns
+<code>TRUE</code> for at least one of the filters passed to
+<code>MessageHandler</code> will be accepted. You can also write your
+own filters if you want.</p>
 </div>
 <div id="commands-with-arguments" class="section level3">
 <h3>Commands with arguments</h3>
-<p>Let’s add some actual functionality to your bot. We want to implement a <code>/caps</code> command that will take some text as an argument and reply to it in CAPS. To make things easy, you can receive the arguments (as a <code>vector</code>, split on spaces) that were passed to a command in the callback function:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">caps &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update, args){</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="cf">if</span> (<span class="kw">length</span>(args <span class="op">&gt;</span><span class="st"> </span>0L)){</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">    text_caps &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">paste</span>(args, <span class="dt">collapse =</span> <span class="st">&quot; &quot;</span>))</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">    bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">                    <span class="dt">text =</span> text_caps) </a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">  }</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;caps&quot;</span>, caps, <span class="dt">pass_args =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<p><strong>Note:</strong> Take a look at the <code>pass_args = TRUE</code> in the <code>CommandHandler</code> initiation. This is required to let the handler know that you want it to pass the list of command arguments to the callback. All handler classes have keyword arguments like this. Some are the same among all handlers, some are specific to the handler class. If you use a new type of handler for the first time, look it up in the docs and see if one of them is useful to you.</p>
+<p>Let’s add some actual functionality to your bot. We want to implement
+a <code>/caps</code> command that will take some text as an argument and
+reply to it in CAPS. To make things easy, you can receive the arguments
+(as a <code>vector</code>, split on spaces) that were passed to a
+command in the callback function:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>caps <span class="ot">&lt;-</span> <span class="cf">function</span>(bot, update, args){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(args <span class="sc">&gt;</span> 0L)){</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    text_caps <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">paste</span>(args, <span class="at">collapse =</span> <span class="st">&quot; &quot;</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    bot<span class="sc">$</span><span class="fu">sendMessage</span>(<span class="at">chat_id =</span> update<span class="sc">$</span>message<span class="sc">$</span>chat_id,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">text =</span> text_caps) </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>updater <span class="ot">&lt;-</span> updater <span class="sc">+</span> <span class="fu">CommandHandler</span>(<span class="st">&quot;caps&quot;</span>, caps, <span class="at">pass_args =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><strong>Note:</strong> Take a look at the
+<code>pass_args = TRUE</code> in the <code>CommandHandler</code>
+initiation. This is required to let the handler know that you want it to
+pass the list of command arguments to the callback. All handler classes
+have keyword arguments like this. Some are the same among all handlers,
+some are specific to the handler class. If you use a new type of handler
+for the first time, look it up in the docs and see if one of them is
+useful to you.</p>
 </div>
 <div id="unknown-command-handling" class="section level3">
 <h3>Unknown command handling</h3>
-<p>Not bad! However, some confused users might try to send commands to the bot that it doesn’t understand, so you can use a <code>MessageHandler</code> with a <code>command</code> filter to reply to all commands that were not recognized by the previous handlers.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">unknown &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update){</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">    bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">                        <span class="dt">text =</span> <span class="st">&quot;Sorry, I didn't understand that command.&quot;</span>)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">updater &lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">MessageHandler</span>(unknown, MessageFilters<span class="op">$</span>command)</a></code></pre></div>
+<p>Not bad! However, some confused users might try to send commands to
+the bot that it doesn’t understand, so you can use a
+<code>MessageHandler</code> with a <code>command</code> filter to reply
+to all commands that were not recognized by the previous handlers.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>unknown <span class="ot">&lt;-</span> <span class="cf">function</span>(bot, update){</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    bot<span class="sc">$</span><span class="fu">sendMessage</span>(<span class="at">chat_id =</span> update<span class="sc">$</span>message<span class="sc">$</span>chat_id,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">text =</span> <span class="st">&quot;Sorry, I didn&#39;t understand that command.&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>updater <span class="ot">&lt;-</span> updater <span class="sc">+</span> <span class="fu">MessageHandler</span>(unknown, MessageFilters<span class="sc">$</span>command)</span></code></pre></div>
 </div>
 <div id="stopping-the-bot" class="section level3">
 <h3>Stopping the Bot</h3>
-<p>If you’re done playing around, you can stop the Bot either by using the the <code>interrupt R</code> command in the session menu (in <em>RStudio</em> you can press the <code>STOP</code> button) or by calling the <code>updater$stop_polling()</code> method. Below we will define a command that uses this method:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Example of a 'kill' command</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">kill &lt;-<span class="st"> </span><span class="cf">function</span>(bot, update){</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  bot<span class="op">$</span><span class="kw">sendMessage</span>(<span class="dt">chat_id =</span> update<span class="op">$</span>message<span class="op">$</span>chat_id,</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">                  <span class="dt">text =</span> <span class="st">&quot;Bye!&quot;</span>)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="co"># Clean 'kill' update</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  bot<span class="op">$</span><span class="kw">getUpdates</span>(<span class="dt">offset =</span> update<span class="op">$</span>update_id <span class="op">+</span><span class="st"> </span>1L)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="co"># Stop the updater polling</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">  updater<span class="op">$</span><span class="kw">stop_polling</span>()</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">updater &lt;&lt;-<span class="st"> </span>updater <span class="op">+</span><span class="st"> </span><span class="kw">CommandHandler</span>(<span class="st">&quot;kill&quot;</span>, kill)</a></code></pre></div>
-<p>Now you can send the command <code>/kill</code> from Telegram to stop the Bot. However, in a production environment it wouldn’t be recommendable to leave this command as it is now, as anyone could stop the bot. To solve this, you can create a customized filter in order to make this command available only for a certain <code>user_id</code>, for instance. This is explained in the next section.</p>
-<p><strong>Note:</strong> With the <a href="https://stat.ethz.ch/pipermail/r-help/2011-April/275905.html"><em>superassignment</em> operator <code>&lt;&lt;-</code></a> we assign the <code>updater</code> in the enclosing environment so to call it from inside the <code>kill</code> function.</p>
+<p>If you’re done playing around, you can stop the Bot either by using
+the the <code>interrupt R</code> command in the session menu (in
+<em>RStudio</em> you can press the <code>STOP</code> button) or by
+calling the <code>updater$stop_polling()</code> method. Below we will
+define a command that uses this method:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a &#39;kill&#39; command</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>kill <span class="ot">&lt;-</span> <span class="cf">function</span>(bot, update){</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  bot<span class="sc">$</span><span class="fu">sendMessage</span>(<span class="at">chat_id =</span> update<span class="sc">$</span>message<span class="sc">$</span>chat_id,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">text =</span> <span class="st">&quot;Bye!&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Clean &#39;kill&#39; update</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  bot<span class="sc">$</span><span class="fu">getUpdates</span>(<span class="at">offset =</span> update<span class="sc">$</span>update_id <span class="sc">+</span> 1L)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Stop the updater polling</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  updater<span class="sc">$</span><span class="fu">stop_polling</span>()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>updater <span class="ot">&lt;&lt;-</span> updater <span class="sc">+</span> <span class="fu">CommandHandler</span>(<span class="st">&quot;kill&quot;</span>, kill)</span></code></pre></div>
+<p>Now you can send the command <code>/kill</code> from Telegram to stop
+the Bot. However, in a production environment it wouldn’t be
+recommendable to leave this command as it is now, as anyone could stop
+the bot. To solve this, you can create a customized filter in order to
+make this command available only for a certain <code>user_id</code>, for
+instance. This is explained in the next section.</p>
+<p><strong>Note:</strong> With the <a href="https://stat.ethz.ch/pipermail/r-help/2011-April/275905.html"><em>superassignment</em>
+operator <code>&lt;&lt;-</code></a> we assign the <code>updater</code>
+in the enclosing environment so to call it from inside the
+<code>kill</code> function.</p>
 </div>
 
 

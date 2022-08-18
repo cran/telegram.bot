@@ -1,17 +1,17 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  echo <- function(bot, update){
 #  	bot$sendMessage(chat_id = update$message$chat_id, text = update$message$text)
 #  }
 #  
 #  updater <- updater + MessageHandler(echo, MessageFilters$text)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  caps <- function(bot, update, args){
 #    if (length(args > 0L)){
 #     	text_caps <- toupper(paste(args, collapse = " "))
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 #  
 #  updater <- updater + CommandHandler("caps", caps, pass_args = TRUE)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  unknown <- function(bot, update){
 #  	bot$sendMessage(chat_id = update$message$chat_id,
 #                          text = "Sorry, I didn't understand that command.")
@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 #  
 #  updater <- updater + MessageHandler(unknown, MessageFilters$command)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  # Example of a 'kill' command
 #  kill <- function(bot, update){
 #    bot$sendMessage(chat_id = update$message$chat_id,
